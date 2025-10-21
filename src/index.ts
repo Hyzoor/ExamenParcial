@@ -13,9 +13,9 @@ type LD = {
 }
 
 let discos: LD[] = [
-    { id: 1, filmName: "Disco1", rotationType: "CAV", region: "Japan", lengthMinutes: 47, videoFormat: "NTSC" },
-    { id: 2, filmName: "Disco2", rotationType: "CAV", region: "Japan", lengthMinutes: 48, videoFormat: "NTSC" },
-    { id: 3, filmName: "Disco3", rotationType: "CAV", region: "Japan", lengthMinutes: 49, videoFormat: "NTSC" },
+    { id: 1, filmName: "Disco1", rotationType: "CLV", region: "Japan", lengthMinutes: 47, videoFormat: "NTSC" },
+    { id: 2, filmName: "Disco2", rotationType: "CAV", region: "Japan", lengthMinutes: 48, videoFormat: "PAL" },
+    { id: 3, filmName: "Disco3", rotationType: "CLV", region: "Japan", lengthMinutes: 49, videoFormat: "NTSC" },
 ]
 
 
@@ -25,7 +25,7 @@ const port = 3000;
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => res.send("Bienvenido API de discos"))
+app.get("/", (req, res) => res.send("Bienvenido a la API de discos"))
 
 app.get("/ld", (req, res) => res.json(discos))
 
@@ -51,17 +51,16 @@ app.post("/ld", (req, res) => {
 app.delete("/ld/:id", (req, res) => {
     const id = Number(req.params.id);
 
-    const team = discos.find((x) => {
-        return x.id === id;
-    })
+    const team = discos.find((x) => x.id === id)
 
     if (!team) {
-        res.status(404).json({ message: "El equipo no existe, no ha sido posible eliminarlo" });
-    } else {
-        const nuevosDiscos = discos.filter((x) => !(x.id === id));
-        discos = nuevosDiscos;
-        res.json({ message: "Equipo eliminado correctamente" });
+        res.status(404).json({ message: "El disco no existe, no ha sido posible eliminarlo" });
+        return;
     }
+    const nuevosDiscos = discos.filter((x) => !(x.id === id));
+    discos = nuevosDiscos;
+    res.json({ message: "Disco eliminado correctamente" });
+
 
 })
 
