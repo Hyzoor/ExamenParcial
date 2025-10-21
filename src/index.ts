@@ -51,9 +51,9 @@ app.post("/ld", (req, res) => {
 app.delete("/ld/:id", (req, res) => {
     const id = Number(req.params.id);
 
-    const team = discos.find((x) => x.id === id)
+    const disco = discos.find((x) => x.id === id)
 
-    if (!team) {
+    if (!disco) {
         res.status(404).json({ message: "El disco no existe, no ha sido posible eliminarlo" });
         return;
     }
